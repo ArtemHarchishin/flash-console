@@ -22,10 +22,12 @@
 * 3. This notice may not be removed or altered from any source distribution.
 * 
 */
-package com.junkbyte.console {
-	import flash.text.StyleSheet;	
+package com.junkbyte.console
+{
+	import flash.text.StyleSheet;
 	
-	public class ConsoleStyle {
+	public class ConsoleStyle
+	{
 		
 		/** Font for menus and almost all others */
 		public var menuFont:String = "Arial";
@@ -51,23 +53,20 @@ package com.junkbyte.console {
 		/** Size of controls, scroll bar, scaler, etc */
 		public var controlSize:uint = 5;
 		
-		/** Command line background and text color. Background gets alpha so it is less visible. */
-		public var commandLineColor:uint = 0x10AA00;
-		
 		/** Font color for high priority text, such as user input. */
 		public var highColor:uint = 0xFFFFFF;
 		
 		/** Font color for less important / smaller text */
-		public var lowColor:uint = 0xC0C0C0; 
+		public var lowColor:uint = 0xC0C0C0;
 		
 		/** Font color for log header text (line number, channel and time stamp) */
-		public var logHeaderColor:uint = 0xC0C0C0; 
+		public var logHeaderColor:uint = 0xC0C0C0;
 		
 		/** Font color for menu */
 		public var menuColor:uint = 0xFF8800;
 		
 		/** Font color for highlighted menu */
-		public var menuHighlightColor:uint = 0xDD5500; 
+		public var menuHighlightColor:uint = 0xDD5500;
 		
 		/** Font color for channel names */
 		public var channelsColor:uint = 0xFFFFFF;
@@ -109,9 +108,6 @@ package com.junkbyte.console {
 		/** Show top menu */
 		public var topMenu:Boolean = true;
 		
-		/** Show command line scope */
-		public var showCommandLineScope:Boolean = true;
-		
 		/** Maximum number of channels to display on top menu */
 		public var maxChannelsInMenu:int = 7;
 		
@@ -123,10 +119,10 @@ package com.junkbyte.console {
 		
 		
 		/** Use white base pre configuration */
-		public function whiteBase():void{
+		public function whiteBase():void
+		{
 			backgroundColor = 0xFFFFFF;
 			controlColor = 0xFF3333;
-			commandLineColor = 0x66CC00;
 			//
 			highColor = 0x000000;
 			lowColor = 0x333333;
@@ -150,8 +146,10 @@ package com.junkbyte.console {
 			priorityC1 = 0x0099CC;
 			priorityC2 = 0xFF6600;
 		}
+		
 		/** Use bigger font size */
-		public function big():void{
+		public function big():void
+		{
 			traceFontSize = 13;
 			menuFontSize = 14;
 		}
@@ -161,54 +159,74 @@ package com.junkbyte.console {
 		//  END OF CONFIG  //
 		//                 //
 		/////////////////////
-				
+		
 		private var _css:StyleSheet;
+		
 		/**
 		 * Construct ConsoleStyle. Starts with default black based style.
 		 * You must set up the desired style and configuration before starting Console.
 		 */
-		public function ConsoleStyle() {
+		public function ConsoleStyle()
+		{
 			_css = new StyleSheet();
 		}
 		
 		/**
 		 * Called by console at start to generate the style sheet based on the style settings set
-		 * If you ever changed the style settings after console have already started, 
+		 * If you ever changed the style settings after console have already started,
 		 * calling this method have a good chance of updating console style on the fly as well - not guarantee tho.
 		 */
-		public function updateStyleSheet():void {
-			_css.setStyle("high",{color:hesh(highColor), fontFamily:menuFont, fontSize:menuFontSize, display:'inline'});
-			_css.setStyle("low",{color:hesh(lowColor), fontFamily:menuFont, fontSize:menuFontSize-2, display:'inline'});
-			_css.setStyle("menu",{color:hesh(menuColor), display:'inline'});
-			_css.setStyle("menuHi",{color:hesh(menuHighlightColor), display:'inline'});
-			_css.setStyle("chs",{color:hesh(channelsColor), fontSize:menuFontSize, leading:'2', display:'inline'});
-			_css.setStyle("ch",{color:hesh(channelColor), display:'inline'});
-			_css.setStyle("tt",{color:hesh(menuColor),fontFamily:menuFont,fontSize:menuFontSize, textAlign:'center'});
-			_css.setStyle("r",{textAlign:'right', display:'inline'});
-			_css.setStyle("p",{fontFamily:traceFont, fontSize:traceFontSize});
-			_css.setStyle("p0",{color:hesh(priority0), display:'inline'});
-			_css.setStyle("p1",{color:hesh(priority1), display:'inline'});
-			_css.setStyle("p2",{color:hesh(priority2), display:'inline'});
-			_css.setStyle("p3",{color:hesh(priority3), display:'inline'});
-			_css.setStyle("p4",{color:hesh(priority4), display:'inline'});
-			_css.setStyle("p5",{color:hesh(priority5), display:'inline'});
-			_css.setStyle("p6",{color:hesh(priority6), display:'inline'});
-			_css.setStyle("p7",{color:hesh(priority7), display:'inline'});
-			_css.setStyle("p8",{color:hesh(priority8), display:'inline'});
-			_css.setStyle("p9",{color:hesh(priority9), display:'inline'});
-			_css.setStyle("p10",{color:hesh(priority10), fontWeight:'bold', display:'inline'});
-			_css.setStyle("p-1",{color:hesh(priorityC1), display:'inline'});
-			_css.setStyle("p-2",{color:hesh(priorityC2), display:'inline'});
-			_css.setStyle("logs",{color:hesh(logHeaderColor), display:'inline'});
+		public function updateStyleSheet():void
+		{
+			_css.setStyle("high", {
+				color: hesh(highColor),
+				fontFamily: menuFont,
+				fontSize: menuFontSize,
+				display: 'inline'
+			});
+			_css.setStyle("low", {
+				color: hesh(lowColor),
+				fontFamily: menuFont,
+				fontSize: menuFontSize - 2,
+				display: 'inline'
+			});
+			_css.setStyle("menu", {color: hesh(menuColor), display: 'inline'});
+			_css.setStyle("menuHi", {color: hesh(menuHighlightColor), display: 'inline'});
+			_css.setStyle("chs", {color: hesh(channelsColor), fontSize: menuFontSize, leading: '2', display: 'inline'});
+			_css.setStyle("ch", {color: hesh(channelColor), display: 'inline'});
+			_css.setStyle("tt", {
+				color: hesh(menuColor),
+				fontFamily: menuFont,
+				fontSize: menuFontSize,
+				textAlign: 'center'
+			});
+			_css.setStyle("r", {textAlign: 'right', display: 'inline'});
+			_css.setStyle("p", {fontFamily: traceFont, fontSize: traceFontSize});
+			_css.setStyle("p0", {color: hesh(priority0), display: 'inline'});
+			_css.setStyle("p1", {color: hesh(priority1), display: 'inline'});
+			_css.setStyle("p2", {color: hesh(priority2), display: 'inline'});
+			_css.setStyle("p3", {color: hesh(priority3), display: 'inline'});
+			_css.setStyle("p4", {color: hesh(priority4), display: 'inline'});
+			_css.setStyle("p5", {color: hesh(priority5), display: 'inline'});
+			_css.setStyle("p6", {color: hesh(priority6), display: 'inline'});
+			_css.setStyle("p7", {color: hesh(priority7), display: 'inline'});
+			_css.setStyle("p8", {color: hesh(priority8), display: 'inline'});
+			_css.setStyle("p9", {color: hesh(priority9), display: 'inline'});
+			_css.setStyle("p10", {color: hesh(priority10), fontWeight: 'bold', display: 'inline'});
+			_css.setStyle("p-1", {color: hesh(priorityC1), display: 'inline'});
+			_css.setStyle("p-2", {color: hesh(priorityC2), display: 'inline'});
+			_css.setStyle("logs", {color: hesh(logHeaderColor), display: 'inline'});
 		}
+		
 		/**
 		 * Style sheet used by Console.
 		 * <p>
 		 * You may add your own style definitions if you plan to use Cc.addHTML feature excessively.
 		 * Only CSS properties supported by flash will work.
-		 * 
+		 *
 		 * </p>
-		 * At console startup, it sets several style sets using settings from ConsoleStyle, such as trace font size, menu color, etc.
+		 * At console startup, it sets several style sets using settings from ConsoleStyle, such as trace font size,
+		 * menu color, etc.
 		 * <ul>
 		 * <li>List of build in styles:</li>
 		 * <ul>
@@ -216,7 +234,8 @@ package com.junkbyte.console {
 		 * <li>low - color:ConsoleStyle.lowColor</li>
 		 * <li>menu - color:ConsoleStyle.menuColor</li>
 		 * <li>menuHi - color:ConsoleStyle.menuHighlightColor</li>
-		 * <li>chs - color:ConsoleStyle.channelsColor, fontSize:ConsoleStyle.menuFontSize, leading:2, display:inline</li>
+		 * <li>chs - color:ConsoleStyle.channelsColor, fontSize:ConsoleStyle.menuFontSize, leading:2,
+		 * display:inline</li>
 		 * <li>r - textAlign:right (does not always work in logging)</li>
 		 * <li>p - fontFamily:traceFont, fontSize:traceFontSize</li>
 		 * <li>p0 - (priority0) color:priority0</li>
@@ -236,7 +255,8 @@ package com.junkbyte.console {
 		 * </ul>
 		 * <li>Adding new style example:</li>
 		 * <ul>
-		 * <li><code>Cc.config.style.styleSheet.setStyle("purple",{color:'#FF00FF', fontWeight:'bold', display:'inline'});</code></li>
+		 * <li><code>Cc.config.style.styleSheet.setStyle("purple",{color:'#FF00FF', fontWeight:'bold',
+		 * display:'inline'});</code></li>
 		 * <li><code>Cc.addHTML("My special &lt;purple&gt;PURPLE&lt;/purple&gt; text");</code></li>
 		 * </ul>
 		 * <li>Example 2:</li>
@@ -246,11 +266,14 @@ package com.junkbyte.console {
 		 * </ul>
 		 * </ul>
 		 */
-		public function get styleSheet():StyleSheet	{
+		public function get styleSheet():StyleSheet
+		{
 			return _css;
 		}
-		private function hesh(n:Number):String{
-			return "#"+n.toString(16);
+		
+		private function hesh(n:Number):String
+		{
+			return "#" + n.toString(16);
 		}
 	}
 }

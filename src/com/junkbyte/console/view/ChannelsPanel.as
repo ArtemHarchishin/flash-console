@@ -22,23 +22,26 @@
 * 3. This notice may not be removed or altered from any source distribution.
 * 
 */
-package com.junkbyte.console.view {
+package com.junkbyte.console.view
+{
 	import com.junkbyte.console.Console;
 	
 	import flash.events.TextEvent;
-	import flash.text.TextFieldAutoSize;		
+	import flash.text.TextFieldAutoSize;
 	
 	/**
 	 * @private
 	 */
-	public class ChannelsPanel extends ConsolePanel{
+	public class ChannelsPanel extends ConsolePanel
+	{
 		
 		public static const NAME:String = "channelsPanel";
 		
-		public function ChannelsPanel(m:Console) {
+		public function ChannelsPanel(m:Console)
+		{
 			super(m);
 			name = NAME;
-			init(10,10,false);
+			init(10, 10, false);
 			txtField = makeTF("channelsField");
 			txtField.wordWrap = true;
 			txtField.width = 160;
@@ -48,26 +51,36 @@ package com.junkbyte.console.view {
 			registerDragger(txtField);
 			addChild(txtField);
 		}
-		public function update():void{
+		
+		public function update():void
+		{
 			txtField.wordWrap = false;
 			txtField.width = 80;
-			var str:String = "<high><menu> <b><a href=\"event:close\">X</a></b></menu> "+ console.panels.mainPanel.getChannelsLink();
-			txtField.htmlText = str+"</high>";
-			if(txtField.width>160){
+			var str:String = "<high><menu> <b><a href=\"event:close\">X</a></b></menu> " + console.panels.mainPanel.getChannelsLink();
+			txtField.htmlText = str + "</high>";
+			if (txtField.width > 160)
+			{
 				txtField.wordWrap = true;
 				txtField.width = 160;
 			}
-			width = txtField.width+4;
+			width = txtField.width + 4;
 			height = txtField.height;
 		}
-		private function onMenuRollOver(e:TextEvent):void{
+		
+		private function onMenuRollOver(e:TextEvent):void
+		{
 			console.panels.mainPanel.onMenuRollOver(e, this);
 		}
-		protected function linkHandler(e:TextEvent):void{
+		
+		protected function linkHandler(e:TextEvent):void
+		{
 			txtField.setSelection(0, 0);
-			if(e.text == "close"){
+			if (e.text == "close")
+			{
 				console.panels.channelsPanel = false;
-			}else if(e.text.substring(0,8) == "channel_"){
+			}
+			else if (e.text.substring(0, 8) == "channel_")
+			{
 				console.panels.mainPanel.onChannelPressed(e.text.substring(8));
 			}
 			txtField.setSelection(0, 0);

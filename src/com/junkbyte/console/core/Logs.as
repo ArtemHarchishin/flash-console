@@ -22,17 +22,19 @@
 * 3. This notice may not be removed or altered from any source distribution.
 * 
 */
-package com.junkbyte.console.core 
+package com.junkbyte.console.core
 {
 	import flash.utils.ByteArray;
 	import flash.events.Event;
+	
 	import com.junkbyte.console.Console;
 	import com.junkbyte.console.vos.Log;
 	
 	/**
 	 * @private
 	 */
-	public class Logs extends ConsoleCore{
+	public class Logs extends ConsoleCore
+	{
 		
 		private var _channels:Object;
 		private var _repeating:uint;
@@ -47,43 +49,48 @@ package com.junkbyte.console.core
 		private var _length:uint;
 		private var _lines:uint; // number of lines since start.
 		
-		public function Logs(console:Console){
+		public function Logs(console:Console)
+		{
 			super(console);
-			_channels = new Object();
+			_channels = {};
 			remoter.addEventListener(Event.CONNECT, onRemoteConnection);
-			remoter.registerCallback("log", function(bytes:ByteArray):void{
-				registerLog(Log.FromBytes(bytes));
-			});
 		}
 		
-		private function onRemoteConnection(e:Event):void{
+		private function onRemoteConnection(e:Event):void
+		{
 			var log:Log = first;
-			while(log){
+			while (log)
+			{
 				send2Remote(log);
 				log = log.next;
 			}
 		}
 		
-		private function send2Remote(line:Log):void{
-			if(remoter.canSend) {
+		private function send2Remote(line:Log):void
+		{
+			if (remoter.canSend)
+			{
 				var bytes:ByteArray = new ByteArray();
 				line.toBytes(bytes);
-				remoter.send("log", bytes);
+				remoter.send(bytes);
 			}
 		}
 		
-		public function update(time:uint):void{
+		public function update(time:uint):void
+		{
 			_timer = time;
-			if(_repeating > 0) _repeating--;
-			if(_newRepeat){
-				if(_lastRepeat) remove(_lastRepeat);
+			if (_repeating > 0) _repeating--;
+			if (_newRepeat)
+			{
+				if (_lastRepeat) remove(_lastRepeat);
 				_lastRepeat = _newRepeat;
 				_newRepeat = null;
 				push(_lastRepeat);
 			}
 		}
 		
-		public function add(line:Log):void{
+		public function add(line:Log):void
+		{
 			_lines++;
 			line.line = _lines;
 			line.time = _timer;
@@ -91,109 +98,137 @@ package com.junkbyte.console.core
 			registerLog(line);
 		}
 		
-		private function registerLog(line:Log):void{
+		private function registerLog(line:Log):void
+		{
 			hasNewLog = true;
 			addChannel(line.ch);
 			
-			line.lineStr = line.line +" ";
-			line.chStr = "[<a href=\"event:channel_"+line.ch+"\">"+line.ch+"</a>] ";
+			line.lineStr = line.line + " ";
+			line.chStr = "[<a href=\"event:channel_" + line.ch + "\">" + line.ch + "</a>] ";
 			line.timeStr = config.timeStampFormatter(line.time) + " ";
 			
 			send2Remote(line);
-			if (line.repeat) {
-				if(_repeating > 0 && _lastRepeat){
+			if (line.repeat)
+			{
+				if (_repeating > 0 && _lastRepeat)
+				{
 					line.line = _lastRepeat.line;
 					_newRepeat = line;
 					return;
-				}else{
+				}
+				else
+				{
 					_repeating = config.maxRepeats;
 					_lastRepeat = line;
 				}
 			}
 			//
 			push(line);
-			while(_length > config.maxLines && config.maxLines > 0){
+			while (_length > config.maxLines && config.maxLines > 0)
+			{
 				remove(first);
 			}
 			//
-			if ( config.tracing && config.traceCall != null) {
+			if (config.tracing && config.traceCall != null)
+			{
 				config.traceCall(line.ch, line.plainText(), line.priority);
 			}
 		}
 		
-		public function clear(channel:String = null):void{
-			if(channel){
+		public function clear(channel:String = null):void
+		{
+			if (channel)
+			{
 				var line:Log = first;
-				while(line){
-					if(line.ch == channel){
+				while (line)
+				{
+					if (line.ch == channel)
+					{
 						remove(line);
 					}
 					line = line.next;
 				}
 				delete _channels[channel];
-			}else{
+			}
+			else
+			{
 				first = null;
 				last = null;
 				_length = 0;
-				_channels = new Object();
+				_channels = {};
 			}
 		}
 		
-		public function getLogsAsString(splitter:String, incChNames:Boolean = true, filter:Function = null):String{
+		public function getLogsAsString(splitter:String, incChNames:Boolean = true, filter:Function = null):String
+		{
 			var str:String = "";
 			var line:Log = first;
-			while(line){
-				if(filter == null || filter(line)){
-					if(first != line) str += splitter;
-					str += incChNames?line.toString():line.plainText();
+			while (line)
+			{
+				if (filter == null || filter(line))
+				{
+					if (first != line) str += splitter;
+					str += incChNames ? line.toString() : line.plainText();
 				}
 				line = line.next;
 			}
 			return str;
 		}
 		
-		public function getChannels():Array{
+		public function getChannels():Array
+		{
 			var arr:Array = new Array(Console.GLOBAL_CHANNEL);
 			addIfexist(Console.DEFAULT_CHANNEL, arr);
 			addIfexist(Console.FILTER_CHANNEL, arr);
 			addIfexist(LogReferences.INSPECTING_CHANNEL, arr);
 			addIfexist(Console.CONSOLE_CHANNEL, arr);
-			var others:Array = new Array();
-			for(var X:String in _channels){
-				if(arr.indexOf(X)<0) others.push(X);
+			var others:Array = [];
+			for (var X:String in _channels)
+			{
+				if (arr.indexOf(X) < 0) others.push(X);
 			}
 			return arr.concat(others.sort(Array.CASEINSENSITIVE));
 		}
 		
-		private function addIfexist(n:String, arr:Array):void{
-			if(_channels.hasOwnProperty(n)) arr.push(n);
+		private function addIfexist(n:String, arr:Array):void
+		{
+			if (_channels.hasOwnProperty(n)) arr.push(n);
 		}
 		
-		public function cleanChannels():void{
-			_channels = new Object();
+		public function cleanChannels():void
+		{
+			_channels = {};
 			var line:Log = first;
-			while(line){
+			while (line)
+			{
 				addChannel(line.ch);
 				line = line.next;
 			}
 		}
 		
-		public function addChannel(n:String):void{
+		public function addChannel(n:String):void
+		{
 			_channels[n] = null;
 		}
+		
 		//
 		// Log chain controls
 		//
-		private function push(v:Log):void{
-			if(last==null) {
+		private function push(v:Log):void
+		{
+			if (last == null)
+			{
 				first = v;
-			}else{
+			}
+			else
+			{
 				last.next = v;
 				v.prev = last;
 			}
 			last = v;
 			_length++;
 		}
+		
 		/*
 		 //Made code for these function part of another function to save compile size.
 		 private function pop():void{
@@ -213,13 +248,14 @@ package com.junkbyte.console.core
 				_length--;
 			}
 		}*/
-		private function remove(log:Log):void{
-			if(first == log) first = log.next;
-			if(last == log) last = log.prev;
-			if(log == _lastRepeat) _lastRepeat = null;
-			if(log == _newRepeat) _newRepeat = null;
-			if(log.next != null) log.next.prev = log.prev;
-			if(log.prev != null) log.prev.next = log.next;
+		private function remove(log:Log):void
+		{
+			if (first == log) first = log.next;
+			if (last == log) last = log.prev;
+			if (log == _lastRepeat) _lastRepeat = null;
+			if (log == _newRepeat) _newRepeat = null;
+			if (log.next != null) log.next.prev = log.prev;
+			if (log.prev != null) log.prev.next = log.next;
 			_length--;
 		}
 	}

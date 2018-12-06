@@ -22,13 +22,15 @@
 * 3. This notice may not be removed or altered from any source distribution.
 * 
 */
-package com.junkbyte.console.vos {
+package com.junkbyte.console.vos
+{
 	import flash.utils.ByteArray;
 	
 	/**
 	 * @private
 	 */
-	public class Log{
+	public class Log
+	{
 		public var line:uint;
 		public var text:String;
 		public var ch:String;
@@ -44,39 +46,36 @@ package com.junkbyte.console.vos {
 		//
 		public var next:Log;
 		public var prev:Log;
+		
 		//
-		public function Log(txt:String, cc:String, pp:int, repeating:Boolean = false, ishtml:Boolean = false){
+		public function Log(txt:String, cc:String, pp:int, repeating:Boolean = false, ishtml:Boolean = false)
+		{
 			text = txt;
 			ch = cc;
 			priority = pp;
 			repeat = repeating;
 			html = ishtml;
 		}
-		public function toBytes(bytes:ByteArray):void{
+		
+		public function toBytes(bytes:ByteArray):void
+		{
 			var t:ByteArray = new ByteArray();
-			t.writeUTFBytes(text);// because writeUTF can't accept more than 65535
-			bytes.writeUnsignedInt(t.length);
-			bytes.writeBytes(t); 
-			bytes.writeUTF(ch);
-			bytes.writeInt(priority);
-			bytes.writeBoolean(repeat);
-		}
-		public static function FromBytes(bytes:ByteArray):Log{
-			var t:String = bytes.readUTFBytes(bytes.readUnsignedInt());
-			var c:String = bytes.readUTF();
-			var p:int = bytes.readInt();
-			var r:Boolean = bytes.readBoolean();
-			return new Log(t, c, p, r, true);
+			t.writeUTFBytes("\n" + text + "[" + ch + "]");// because writeUTF can't accept more than 65535
+			bytes.writeBytes(t);
 		}
 		
-		public function plainText():String{
+		public function plainText():String
+		{
 			return text.replace(/<.*?>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 		}
-		public function toString():String{
-			return "["+ch+"] " + plainText();
+		
+		public function toString():String
+		{
+			return "[" + ch + "] " + plainText();
 		}
 		
-		public function clone():Log{
+		public function clone():Log
+		{
 			var l:Log = new Log(text, ch, priority, repeat, html);
 			l.line = line;
 			l.time = time;

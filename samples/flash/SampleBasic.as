@@ -52,12 +52,12 @@ package
 			Cc.startOnStage(this, "`"); // "`" - change for password. This will start hidden
 			Cc.visible = true; // Show console, because having password hides console.
 			
-			Cc.config.commandLineAllowed = true; // enable advanced (but security risk) features.
+			//Cc.config.commandLineAllowed = true; // enable advanced (but security risk) features.
 			Cc.config.tracing = true; // Also trace on flash's normal trace
-			Cc.config.remotingPassword = ""; // Just so that remote don't ask for password
+			//Cc.config.remotingPassword = ""; // Just so that remote don't ask for password
 			Cc.remoting = true; // Start sending logs to remote (using LocalConnection)
 			
-			Cc.commandLine = true; // Show command line
+			//Cc.commandLine = true; // Show command line
 			
 			Cc.height = 220; // change height. You can set x y width height to position/size the main panel
 			//

@@ -22,48 +22,63 @@
 * 3. This notice may not be removed or altered from any source distribution.
 * 
 */
-package com.junkbyte.console.vos {
+package com.junkbyte.console.vos
+{
 	import flash.utils.Dictionary;
 	
 	/**
 	 * @private
 	 */
-	public class WeakRef{
+	public class WeakRef
+	{
 		
 		private var _val:*;
 		private var _strong:Boolean; // strong flag
 		
-		// Known issue: storing a function reference that's on timeline don't seem to work on next frame. fix = manually store as strong ref.
-		// There is abilty to use strong reference incase you need to mix - 
-		// weak and strong references together somewhere
-		public function WeakRef(ref:*, strong:Boolean = false) {
+		// Known issue: storing a function reference that's on timeline don't seem to work on next frame. fix =
+		// manually store as strong ref. There is abilty to use strong reference incase you need to mix -  weak and
+		// strong references together somewhere
+		public function WeakRef(ref:*, strong:Boolean = false)
+		{
 			_strong = strong;
 			reference = ref;
 		}
 		
-		public function get reference():*{
-			if(_strong){
+		public function get reference():*
+		{
+			if (_strong)
+			{
 				return _val;
-			}else{
+			}
+			else
+			{
 				//there should be only 1 key in it anyway
-				for(var X:* in _val){
+				for (var X:* in _val)
+				{
 					return X;
 				}
 			}
 			return null;
 		}
-		public function set reference(ref:*):void{
-			if(_strong){
+		
+		public function set reference(ref:*):void
+		{
+			if (_strong)
+			{
 				_val = ref;
-			}else{
+			}
+			else
+			{
 				_val = new Dictionary(true);
 				_val[ref] = null;
 			}
 		}
 		
-		public function get strong():Boolean{
+		public function get strong():Boolean
+		{
 			return _strong;
 		}
+		
 		/*
 		// Removed to save compile size
 		public function set strong(b:Boolean):void{

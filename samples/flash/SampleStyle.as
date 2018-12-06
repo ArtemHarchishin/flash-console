@@ -49,8 +49,8 @@ package
 			
 			Cc.startOnStage(this, "`"); // "`" - change for password. This will start hidden
 			Cc.visible = true; // show console, because having password hides console.
-			Cc.commandLine = true; // enable command line
-			Cc.config.commandLineAllowed = true;
+			//Cc.commandLine = true; // enable command line
+			//Cc.config.commandLineAllowed = true;
 			
 			Cc.width = 640;
 			Cc.height = 320;

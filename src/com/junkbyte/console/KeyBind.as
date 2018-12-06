@@ -22,9 +22,9 @@
 * 3. This notice may not be removed or altered from any source distribution.
 * 
 */
-package com.junkbyte.console 
+package com.junkbyte.console
 {
-	public class KeyBind 
+	public class KeyBind
 	{
 		
 		private var _code:Boolean;
@@ -39,17 +39,20 @@ package com.junkbyte.console
 		public function KeyBind(v:*, shift:Boolean = false, ctrl:Boolean = false, alt:Boolean = false, onUp:Boolean = false)
 		{
 			_key = String(v).toUpperCase();
-			if(v is uint){
+			if (v is uint)
+			{
 				_code = true;
-			}else if(!v || _key.length != 1) {
-				throw new Error("KeyBind: character (first char) must be a single character. You gave ["+v+"]");
+			}
+			else if (!v || _key.length != 1)
+			{
+				throw new Error("KeyBind: character (first char) must be a single character. You gave [" + v + "]");
 			}
 			
-			if(_code) _key = "keycode:"+_key;
-			if(shift) _key+="+shift";
-			if(ctrl) _key+="+ctrl";
-			if(alt) _key+="+alt";
-			if(onUp) _key+="+up";
+			if (_code) _key = "keycode:" + _key;
+			if (shift) _key += "+shift";
+			if (ctrl) _key += "+ctrl";
+			if (alt) _key += "+alt";
+			if (onUp) _key += "+up";
 			
 		}
 		
@@ -57,6 +60,7 @@ package com.junkbyte.console
 		{
 			return _code;
 		}
+		
 		public function get key():String
 		{
 			return _key;

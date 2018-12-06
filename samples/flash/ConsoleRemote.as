@@ -41,13 +41,13 @@ package
 		public function ConsoleRemote() {
 			
 			Cc.start(this);
-			Cc.commandLine = true;
+			//Cc.commandLine = true;
 			Cc.config.maxLines = 2000;
 			Cc.config.maxRepeats = 200;
-			Cc.config.commandLineAllowed = true;
+			//Cc.config.commandLineAllowed = true;
 			
 			// Start remote service.
-			Cc.instance.remoter.remoting = Remoting.RECIEVER;
+			//Cc.instance.remoter.remoting = Remoting.RECIEVER;
 			// Disable scaling and moving
 			Cc.instance.panels.mainPanel.moveable = false;
 			Cc.instance.panels.mainPanel.scalable = false;
